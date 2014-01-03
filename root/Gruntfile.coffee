@@ -43,6 +43,8 @@ module.exports = (grunt) ->
       gruntfile:
         files: "src/**/*"
         tasks: ["compile"]
+      options:
+        livereload: true
     s3:
       options:
         key: "<%= config.aws.key %>"
