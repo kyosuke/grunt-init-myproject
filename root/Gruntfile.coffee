@@ -1,15 +1,5 @@
 glob = require('glob')
 
-getJadeFiles = ->
-  ret = {}
-  files = glob.sync("src/**/*.jade").filter((file) ->
-    not file.match(/_layout\.jade$/)
-  ).forEach((file) ->
-    dest = file.replace(/^src/, "dest").replace(/jade$/, "html")
-    ret[dest] = file
-  )
-  ret
-
 getDeplyUploadFiles = ->
   glob.sync("dest/**/*").map (path) ->
     src: path
@@ -37,7 +27,13 @@ module.exports = (grunt) ->
         ]
     jade:
       compile:
-        files: getJadeFiles()
+        files: [
+          expand: true
+          cwd: 'src/'
+          src: ['**/!(_)*.jade']
+          dest: 'dest/'
+          ext: '.html'
+        ]
     connect:
       server:
         options:
